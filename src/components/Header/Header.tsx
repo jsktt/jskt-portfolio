@@ -4,27 +4,29 @@ import { authApi } from "../../api/authApi";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 
-
 const Header = () => {
   const user = useSelector((state: RootState) => state.auth.email);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleSignout = () => {
     authApi.signout();
     navigate("/");
-  }
+  };
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}> 준성이의 포트폴리오 </div>
-      <nav className={styles.nav}>
-        <Link to="/about">About Me</Link>
-        <Link to="/projects">Projects</Link>
-        <Link to="/blog">Blog</Link>
+      <div className={styles.left}>
+        <Link to="/">JUNSUNG KIM</Link>{" "}
+      </div>
+      <nav className={styles.right}>
+        <Link to="/about">ABOUT</Link>
+        <Link to="/projects">PROJECTS</Link>
+        <Link to="/writings">WRITINGS</Link>
 
         {user ? (
           <span onClick={handleSignout}>{user}</span>
-          ) : (
-          <Link to="/login">Login</Link>)}
+        ) : (
+          <Link to="/login">LOGIN</Link>
+        )}
       </nav>
     </header>
   );

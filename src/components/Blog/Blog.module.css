@@ -1,0 +1,72 @@
+/* treat the entire card as the link*/
+
+.container {
+    width: 100%;
+    background-color: white;
+}
+
+.adminHeader {
+    padding: 20px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.postRow {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 32px 6px;
+    border-bottom: 1px solid #e0e0e0;
+    text-decoration: none;
+    color: #202632;
+    overflow: hidden;
+    transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/*flood effect*/
+
+.floodOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: #202632;
+    z-index: 0;
+    transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.postRow:hover .floodOverlay {
+    height: 100%;
+}
+
+.content{
+    position: relative;
+    z-index: 1;     /*sit on top of flood*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.postRow:hover {
+    color: #ffffff      /* text turns white when background turns dark*/
+}
+
+.title {
+    font-family: "PPNeuel Bold";
+    font-size: 125px;
+    text-transform: uppercase;
+}
+
+.actionLabel {
+    font-size: 12px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.postRow:hover .actionLabel {
+    opacity: 1;
+    transform: translateX(0);
+}
