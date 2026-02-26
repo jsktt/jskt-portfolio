@@ -47,7 +47,7 @@ const Login = () => {
             placeholder="비밀번호"
             type="password" {...register("password", { required: true })}/>
         </label>
-        <button type="submit">Login</button>
+        <button type="submit">LOGIN</button>
         {error && <p>{error}</p>}
       </form>
     </div>

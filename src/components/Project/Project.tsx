@@ -25,9 +25,8 @@ const Project = () => {
   }, []);
 
   return (
-    <div>
-      <h1>프로젝트 공간</h1>
-      <Link to="/create_project">프로젝트 생성하기</Link>
+    <div>  
+      <Link to="/projects/new">프로젝트 생성하기</Link>
 
       <hr />
 

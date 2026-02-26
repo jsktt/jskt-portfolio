@@ -4,8 +4,6 @@ import { supabaseClient } from "../api/supabase";
 import { setSession } from "../store/authSlice";
 
 
-
-
 interface AuthProviderProps {
   children: ReactNode;
 }

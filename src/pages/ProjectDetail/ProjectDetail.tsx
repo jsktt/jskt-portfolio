@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
 
@@ -18,6 +18,7 @@ type Project = {
 
 const ProjectDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const ProjectDetail = () => {
         .eq("id", id)
         .single();
 
+      //TODO: 에러처리 확장
       if (error) console.error(error);
       else setProject(data);
     };
@@ -35,11 +37,15 @@ const ProjectDetail = () => {
     fetchProject();
   }, [id]);
 
-  if (!project) return <div>Loading...</div>;
+  if (!project) return <div>분발하자... 프로젝트가 없다....</div>;
 
   return (
     <div>
       <h1>{project.title}</h1>
+
+      <button onClick={() => navigate(`/projects/edit/${project.id}`)}>
+        수정하기
+      </button>
 
       {project.cover_image_url && (
         <img src={project.cover_image_url} alt={project.title} />
