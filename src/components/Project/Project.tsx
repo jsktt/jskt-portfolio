@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
+import styles from "./Project.module.css";
 
 type Project = {
   id: number;
@@ -9,6 +10,9 @@ type Project = {
 
 const Project = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+
+  // track hoveredID
+  const [hoveredID, setHoveredId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -24,9 +28,11 @@ const Project = () => {
     fetchProject();
   }, []);
 
+
+
   return (
     <div>  
-      <Link to="/projects/new">프로젝트 생성하기</Link>
+      <Link to="/projects/new">프로젝트 생성하기</Link> 
 
       <hr />
 

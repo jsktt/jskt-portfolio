@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
+import styles from "./BlogDetail.module.css";
 
 type Blog = {
   id: number;
@@ -36,13 +37,17 @@ const BlogDetail = () => {
   return (
     <div>
       <h1>{post.title}</h1>
-      <button onClick={() => navigate(`/writings/edit/${post.id}`)}>
-        수정하기
-      </button>
-      <p>{post.created_date}</p>
-      {/** .md file */}
 
-      <ReactMarkdown>{post.content}</ReactMarkdown>
+      <span>{post.created_date}</span>
+      <button
+        className={styles.editBtn}
+        onClick={() => navigate(`/writings/edit/${post.id}`)}
+      >
+        EDIT
+      </button>
+      <article>
+        <ReactMarkdown>{post.content}</ReactMarkdown>
+      </article>
     </div>
   );
 };
