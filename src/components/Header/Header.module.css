@@ -17,6 +17,7 @@
   font-weight: 500;
   background-color: white;
   
+  position: sticky;
   box-sizing: border-box;
   font-size: 12px;
   color: #202632;
@@ -34,4 +35,10 @@
   display: flex;
   align-items: center;
   gap: 52px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    font-size: 6px;
+  }
 }

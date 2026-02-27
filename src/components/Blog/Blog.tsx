@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import styles from "./Blog.module.css";
 import ReactMarkdown from "react-markdown";

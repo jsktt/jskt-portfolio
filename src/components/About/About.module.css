@@ -1,0 +1,40 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.914);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 11px;
+  opacity: 0;
+  animation: fadeIn 300ms ease forwards;
+  
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  width: 500px;
+  padding: 40px;
+
+  opacity: 60%;
+  transform: translateZ(10px);
+  animation: slideIn 300ms ease forwards;
+}
+.modal p {
+    margin: 4px 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}

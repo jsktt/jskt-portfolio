@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { authApi } from "../../api/authApi";
 import { useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import type { RootState } from "../../store/store";
 const Header = () => {
   const user = useSelector((state: RootState) => state.auth.email);
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const handleSignout = () => {
     authApi.signout();
     navigate("/");
@@ -18,7 +20,9 @@ const Header = () => {
         <Link to="/">JUNSUNG KIM</Link>{" "}
       </div>
       <nav className={styles.right}>
-        <Link to="/about">ABOUT</Link>
+        <Link to="/about" state={{ backgroundLocation: location }}>
+          ABOUT
+        </Link>
         <Link to="/projects">PROJECTS</Link>
         <Link to="/writings">WRITINGS</Link>
 
