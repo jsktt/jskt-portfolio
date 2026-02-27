@@ -1,72 +1,105 @@
-/* treat the entire card as the link*/
+/* empty space at the top */
+.spacer {
+  height: 33.33vh;
+  width: 100%;
 
-.container {
-    width: 100%;
-    background-color: white;
+  /* animation for slide-up feel*/
+  transition:
+    height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease;
+  overflow: hidden;
 }
 
-.adminHeader {
-    padding: 20px 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.spacerHidden {
+  height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
 }
 
-.postRow {
-    position: relative;
-    display: block;
-    width: 100%;
-    padding: 32px 6px;
-    border-bottom: 1px solid #e0e0e0;
-    text-decoration: none;
-    color: #202632;
-    overflow: hidden;
-    transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+.list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.article {
+  position: relative;
+  width: 100vw;
+  padding: 6px 0px;
+  border-top: 1px solid var(--color-font);
+  cursor: pointer;
+  margin-top: -32px;
+  background-color: var(--color-white);
+  transition: transform 0.3s ease;
 }
 
-/*flood effect*/
-
-.floodOverlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0%;
-    background-color: #202632;
-    z-index: 0;
-    transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+.article:first-child {
+  margin-top: 0;
 }
 
-.postRow:hover .floodOverlay {
-    height: 100%;
-}
-
-.content{
-    position: relative;
-    z-index: 1;     /*sit on top of flood*/
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.postRow:hover {
-    color: #ffffff      /* text turns white when background turns dark*/
+.article:hover {
+  transform: translateY(-32px);
 }
 
 .title {
-    font-family: "PPNeuel Bold";
-    font-size: 125px;
-    text-transform: uppercase;
+  width: 100%;
+  font-size: 80px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.actionLabel {
-    font-size: 12px;
+.isExpanded {
+  transform: translateY(-32px);
+  z-index: 5;
+}
+
+.expanded {
+  padding: 32px 16px;
+  border-bottom: 1px solid var(--color-font);
+  animation: expandIn 0.35s ease forwards;
+}
+
+.detailView {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.isDetailHeader {
+  position: fixed; /* Instead of sticky */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100; /* Stays above everything */
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0 !important;
+}
+
+.contentBody {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  animation: slideup 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  background-color: beige;
+}
+
+.backButton {
+  background: none;
+  border: 1px solid var(--color-font);
+  cursor: pointer;
+  padding: 4px 12px;
+}
+
+@keyframes slideup {
+  from {
     opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s ease;
-}
-
-.postRow:hover .actionLabel {
+    transform: translateY(50px);
+  }
+  to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
+  }
 }
