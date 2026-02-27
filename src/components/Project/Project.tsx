@@ -1,47 +1,36 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
-import styles from "./Project.module.css";
+import ProjectSection from "../ProjectSection/ProjectSection";
 
-type Project = {
+type ProjectData = {
   id: number;
   title: string;
+  category: string;
+  description: string;
 };
 
 const Project = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-
-  // track hoveredID
-  const [hoveredID, setHoveredId] = useState<number | null>(null);
+  const [projects, setProjects] = useState<ProjectData[]>([]);
 
   useEffect(() => {
     const fetchProject = async () => {
       const { data, error } = await supabaseClient
         .from("projects")
-        .select("id, title")
-        .order("created_at", { ascending: false });
+        .select("*")
+        .order("id", { ascending: false });
 
-      if (error) console.error(error);
-      else setProjects(data ?? []);
+      if (!error && data) setProjects(data);
     };
 
     fetchProject();
   }, []);
 
-
-
   return (
-    <div>  
-      <Link to="/projects/new">프로젝트 생성하기</Link> 
-
-      <hr />
-
+    <>
       {projects.map((project) => (
-        <p key={project.id}>
-          <Link to={`/projects/${project.id}`}>{project.title}</Link>
-        </p>
+        <ProjectSection key={project.id} project={project} />
       ))}
-    </div>
+    </>
   );
 };
 

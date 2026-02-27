@@ -2,80 +2,75 @@
 .spacer {
   height: 33.33vh;
   width: 100%;
-
-  /* animation for slide-up feel*/
   transition:
-    height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.6s cubic-bezier(0.19, 1, 0.22, 1),
     opacity 0.4s ease;
-  overflow: hidden;
 }
 
 .spacerHidden {
   height: 0;
   opacity: 0;
-  margin: 0;
-  padding: 0;
-  pointer-events: none;
 }
 
 .list {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+
 .article {
   position: relative;
-  width: 100vw;
-  padding: 6px 0px;
+  width: 100%;
+  padding: 12px 0px;
   border-top: 1px solid var(--color-font);
+  /* border-bottom: 1px solid var(--color-font); */
   cursor: pointer;
-  margin-top: -32px;
+  margin-top: -42px;
   background-color: var(--color-white);
-  transition: transform 0.3s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+  /* z-index: 1; */
 }
 
 .article:first-child {
   margin-top: 0;
 }
 
-.article:hover {
-  transform: translateY(-32px);
+.article:hover:not(.isActive) {
+  transform: translateY(-40px);
+  z-index: 5;
+}
+
+.isHidden {
+  display: none;
+}
+
+/*logic: active item becomes the header*/
+.isActive {
+  margin-top: 0 !important;
+  transform: none !important;
+  cursor: default;
+  min-height: 100vh;
+  z-index: 100;
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  min-height: 100px;
 }
 
 .title {
-  width: 100%;
+  width: auto;
   font-size: 80px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.isExpanded {
-  transform: translateY(-32px);
-  z-index: 5;
-}
-
-.expanded {
-  padding: 32px 16px;
-  border-bottom: 1px solid var(--color-font);
-  animation: expandIn 0.35s ease forwards;
-}
-
-.detailView {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.isDetailHeader {
-  position: fixed; /* Instead of sticky */
-  top: 0;
-  left: 0;
-  width: 100vw;
-  z-index: 100; /* Stays above everything */
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 0 !important;
+  text-transform: uppercase;
 }
 
 .contentBody {
@@ -86,11 +81,12 @@
   background-color: beige;
 }
 
-.backButton {
-  background: none;
-  border: 1px solid var(--color-font);
-  cursor: pointer;
-  padding: 4px 12px;
+.backArrow {
+    font-weight: 800px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 @keyframes slideup {

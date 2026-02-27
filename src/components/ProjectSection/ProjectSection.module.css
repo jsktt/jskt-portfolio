@@ -1,0 +1,66 @@
+.projectsection {
+  display: flex;
+  width: 100%;
+  min-height: 400px;
+  background: white;
+  color: #111;
+  transition:
+    transform 0.3s ease-out,
+    background-color 0.2s ease-out,
+    color 0.3s ease;
+  gap: 40%;
+  padding: 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.projectsection:hover {
+  background-color: #1f2937;
+  color: white;
+  transform: translateY(-10px);
+  
+}
+
+.projectleft {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.projectright {
+  flex-shrink: 0;
+  width: 480px;
+  height: 360px;
+}
+
+.projectright img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .projectsection {
+    flex-direction: column;
+    gap: 5%;
+  }
+
+  .projectleft {
+    font-size: 10px;
+  }
+
+  .projectright {
+    width: 100%;
+    height: auto;
+  }
+
+  .projectright img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+}
