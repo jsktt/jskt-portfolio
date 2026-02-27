@@ -56,3 +56,7 @@
   --color-font: #202632;
   --color-white: #ffffff;
 }
+
+html {
+  scrollbar-gutter: stable;
+}

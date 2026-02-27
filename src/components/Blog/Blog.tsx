@@ -33,8 +33,6 @@ const Blog = () => {
   const handleExpand = async (post: Blog) => {
     setActiveId(post.id); // triger slide up animation.
 
-    //TODO: spacer hidden 처리
-
     //fetch full content
     const { data } = await supabaseClient
       .from("posts")
@@ -48,7 +46,7 @@ const Blog = () => {
       setTimeout(() => {
         setExpandedPost(data);
         window.scrollTo(0, 0);
-      }, 350); // wait till the header to shrink
+      }, 100); // wait till the header to shrink
     }
   };
 
@@ -65,9 +63,9 @@ const Blog = () => {
       />
 
       <div className={`${styles.list} ${activeId ? styles.listSearching : ""}`}>
-        {posts.map((post) => {
+        {posts.map((post, index) => {
           const isActive = activeId === post.id;
-          const isHidden = activeId && activeId !== post.id;
+          const isHidden = activeId !== null && !isActive;
 
           return (
             <div
@@ -77,9 +75,17 @@ const Blog = () => {
                 ${isActive ? styles.isActive : ""} 
                 ${isHidden ? styles.isHidden : ""}
               `}
+              style={{ zIndex: index + 1 }} // z-index 위치에서 제일 높게 설정
               onClick={() => !activeId && handleExpand(post)}
             >
-              <span className={styles.title}>{post.title}</span>
+              <div className={styles.headerWrapper}>
+                <span className={styles.title}>{post.title}</span>
+                {isActive && (
+                  <button className={styles.backArrow} onClick={handleClose}>
+                    BACK
+                  </button>
+                )}
+              </div>
 
               {/* This only renders once the post is "Expanded" */}
               {isActive && expandedPost && (
@@ -92,9 +98,6 @@ const Blog = () => {
                   <article className={styles.markdown}>
                     <ReactMarkdown>{expandedPost.content ?? ""}</ReactMarkdown>
                   </article>
-                  <button className={styles.backButton} onClick={handleClose}>
-                    CLOSE
-                  </button>
                 </div>
               )}
             </div>
@@ -104,4 +107,5 @@ const Blog = () => {
     </div>
   );
 };
+
 export default Blog;
