@@ -15,9 +15,10 @@
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 12px;
   opacity: 0;
   animation: fadeIn 600ms ease forwards;
+  word-break: keep-all;
 
   z-index: 1000;
 }

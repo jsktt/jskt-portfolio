@@ -23,7 +23,7 @@ export const IMAGES = {
 } as const;
 
 export const LANDING_DESCRIPTIONS = {
-  BRIDGE: "Chicago Bridge",
+  BRIDGE: "River view of the Chicago Bridge.",
   JEJUDO: "Coastal cliffs and volcanic landscape in Jeju Island, South Korea.",
   DANTES: "Dante’s in West Village, NYC — evening city atmosphere.",
   MAPLECREST: "Autumn scenery in Maplecrest, Upstate New York.",
