@@ -74,3 +74,31 @@
     transform: translateZ(0);
   }
 }
+
+@media (max-width: 768px) {
+  .modal {
+    width: 90%;
+    padding: 24px;
+  }
+
+  .overlay {
+    font-size: 11px;
+  }
+
+  .modal p {
+    line-height: 1.5;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .left,
+  .right {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}

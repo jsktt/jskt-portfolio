@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./About.module.css";
 import { authApi } from "../../api/authApi";
 import LoginAuth from "../../provider/LoginAuth";
@@ -26,7 +26,8 @@ const About = () => {
         <br />
 
         <p className={styles.text}>
-          안녕하세요, 저는 <span onClick={() => handleAuth()}>김준성</span>입니다.
+          안녕하세요, 저는 <span onClick={() => handleAuth()}>김준성</span>
+          입니다.
         </p>
         <p>디자인과 코딩을 통해 문제를 해결하는 엔지니어입니다.</p>
         <p>
