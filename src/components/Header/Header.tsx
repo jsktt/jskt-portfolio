@@ -30,11 +30,6 @@ const Header = () => {
         <Link to="/projects">PROJECTS</Link>
         <Link to="/writings">WRITINGS</Link>
 
-        {user ? (
-          <span onClick={handleSignout}>{user}</span>
-        ) : (
-          <Link to="/login">LOGIN</Link>
-        )}
       </nav>
     </header>
   );

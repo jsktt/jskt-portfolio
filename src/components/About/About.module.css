@@ -1,3 +1,12 @@
+.text a,
+.text a:visited,
+.text a:active,
+.text a:hover,
+.text a:focus {
+  color: #202632;
+  text-decoration: none;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -14,7 +23,7 @@
 }
 
 .modal {
-  background: rgba(255, 255, 255, 0.6);
+  
   width: 500px;
   padding: 40px;
 

@@ -1,11 +1,24 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./About.module.css";
+import { authApi } from "../../api/authApi";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 
 const About = () => {
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.email);
 
   const handleClose = () => {
     navigate(-1);
+  };
+
+  const handleAuth = () => {
+    if (user) {
+      authApi.signout();
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -14,15 +27,15 @@ const About = () => {
         <p> DESIGNER & FULLSTACK ENGINEER </p>
         <br />
 
-        <p>안녕하세요, 저는 김준성입니다.</p>
+        <p className={styles.text}>
+          안녕하세요, 저는 <span onClick={() => handleAuth()}>김준성</span>입니다.
+        </p>
         <p>디자인과 코딩을 통해 문제를 해결하는 엔지니어입니다.</p>
         <p>
           미니멀한 디자인으로 진심이 와닿는 스토리텔링을 추구하며, 디테일을
           중요시합니다.
         </p>
-        <p>
-           취미로 디자인 연구하거나, 요리하는거 좋아합니다.
-        </p>
+        <p>취미로 디자인 연구하거나, 요리하는거 좋아합니다.</p>
 
         <br />
         <p>기술 스택:</p>
