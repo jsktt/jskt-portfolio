@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
 import styles from "./ProjectDetail.module.css";
+import LoginAuth from "../../provider/LoginAuth";
 
 type Project = {
   id: number;
@@ -21,6 +22,7 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState<Project | null>(null);
+  const isLoggedIn = LoginAuth();
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -38,36 +40,54 @@ const ProjectDetail = () => {
     fetchProject();
   }, [id]);
 
-  if (!project) return <div>분발하자... 프로젝트가 없다....</div>;
+  if (!project) return <div>ERROR: NO PROJECT FOUND!</div>;
 
   return (
-    <div>
-      <h1>{project.title}</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>{project.title}</h1>
 
-      <button onClick={() => navigate(`/projects/edit/${project.id}`)}>
-        수정하기
-      </button>
-
-      {project.cover_image_url && (
-        <img src={project.cover_image_url} alt={project.title} />
+      {isLoggedIn ? (
+        <button
+          className={styles.editButton}
+          onClick={() => navigate(`/projects/edit/${project.id}`)}
+        >
+          수정하기
+        </button>
+      ) : (
+        ""
       )}
 
-      <p>
-        {project.category} * {project.status}
+      {project.cover_image_url && (
+        <img
+          className={styles.coverImage}
+          src={project.cover_image_url}
+          alt={project.title}
+        />
+      )}
+
+      <p className={styles.meta}>
+        {project.category}, {project.status}
       </p>
 
-      <p>
+      <p className={styles.date}>
         {project.start_date} ~ {project.end_date ?? "Present"}
       </p>
 
       {project.project_url && (
-        <a href={project.project_url} target="_blank">
+        <a
+          className={styles.link}
+          href={project.project_url}
+          target="_blank"
+          rel="noreferrer"
+        >
           Visit Project
         </a>
       )}
 
       {/* .md  */}
-      <ReactMarkdown>{project.content}</ReactMarkdown>
+      <article className={styles.markdown}>
+        <ReactMarkdown>{project.content}</ReactMarkdown>
+      </article>
     </div>
   );
 };

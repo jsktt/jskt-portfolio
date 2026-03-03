@@ -4,11 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./ProjectForm.module.css";
+import LoginAuth from "../../provider/LoginAuth";
+import { authApi } from "../../api/authApi";
 
 type ProjectForm = {
   title: string;
   content: string;
-  status: "NOT DEPLOYED" | "DEPLOYED";
+  status: "NOT_DEPLOYED" | "DEPLOYED";
   category: "PERSONAL" | "TEAM";
   start_date: string;
   end_date?: string;
@@ -29,6 +31,8 @@ const ProjectForm = () => {
   });
 
   const content = watch("content", "");
+  const isLoggedIn = LoginAuth();
+
 
   // loads project if editing
   useEffect(() => {
@@ -71,7 +75,7 @@ const ProjectForm = () => {
 
           {/** status enum */}
           <select {...register("status", { required: true })}>
-            <option value="NOT DEPLOYED">Not deployed</option>
+            <option value="NOT_DEPLOYED">Not deployed</option>
             <option value="DEPLOYED">Deployed</option>
           </select>
 

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { supabaseClient } from "../../api/supabase";
 import styles from "./Blog.module.css";
 import ReactMarkdown from "react-markdown";
+import LoginAuth from "../../provider/LoginAuth";
+import { useNavigate } from "react-router-dom";
 
 type Blog = {
   id: number;
@@ -14,6 +16,8 @@ const Blog = () => {
   const [posts, setPosts] = useState<Blog[]>([]);
   const [expandedPost, setExpandedPost] = useState<Blog | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
+  const isLoggedIn = LoginAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -86,7 +90,7 @@ const Blog = () => {
                 )}
               </div>
 
-              {/* This only renders once the post is "Expanded" */}
+              {/* This only renders once the post is "expanded" */}
               {isActive && expandedPost && (
                 <div className={styles.contentBody}>
                   <span className={styles.date}>
@@ -94,6 +98,18 @@ const Blog = () => {
                       expandedPost.created_at ?? "",
                     ).toLocaleDateString()}
                   </span>
+                  <p>
+                    {isLoggedIn ? (
+                      <button
+                        className={styles.editButton}
+                        onClick={() => navigate(`/writings/edit/${post.id}`)}
+                      >
+                        EDIT
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </p>
                   <article className={styles.markdown}>
                     <ReactMarkdown>{expandedPost.content ?? ""}</ReactMarkdown>
                   </article>

@@ -1,18 +1,11 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
-import { authApi } from "../../api/authApi";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 
 const Header = () => {
   const user = useSelector((state: RootState) => state.auth.email);
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const handleSignout = () => {
-    authApi.signout();
-    navigate("/");
-  };
 
   return (
     <header className={styles.header}>
@@ -29,7 +22,6 @@ const Header = () => {
         </Link>
         <Link to="/projects">PROJECTS</Link>
         <Link to="/writings">WRITINGS</Link>
-
       </nav>
     </header>
   );

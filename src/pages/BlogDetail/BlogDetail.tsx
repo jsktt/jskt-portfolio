@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
 import styles from "./BlogDetail.module.css";
+import LoginAuth from "../../provider/LoginAuth";
 
 type Blog = {
   id: number;
@@ -15,6 +16,7 @@ const BlogDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState<Blog | null>(null);
+  const isLoggedIn = LoginAuth();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -32,19 +34,23 @@ const BlogDetail = () => {
     fetchPost();
   }, [id]);
 
-  if (!post) return <div> 글 좀 쓰자... 블로그 포스트가 없다...</div>;
+  if (!post) return <div> ERROR: NO POST AVALIABLE</div>;
 
   return (
     <div>
       <h1>{post.title}</h1>
 
       <span>{post.created_date}</span>
-      <button
-        className={styles.editBtn}
-        onClick={() => navigate(`/writings/edit/${post.id}`)}
-      >
-        EDIT
-      </button>
+      {isLoggedIn ? (
+        <button
+          className={styles.editBtn}
+          onClick={() => navigate(`/writings/edit/${post.id}`)}
+        >
+          EDIT
+        </button>
+      ) : (
+        ""
+      )}
       <article>
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </article>

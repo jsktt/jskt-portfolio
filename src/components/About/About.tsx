@@ -1,19 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./About.module.css";
 import { authApi } from "../../api/authApi";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
+import LoginAuth from "../../provider/LoginAuth";
 
 const About = () => {
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.email);
-
+  const isLoggedIn = LoginAuth();
   const handleClose = () => {
     navigate(-1);
   };
 
   const handleAuth = () => {
-    if (user) {
+    if (isLoggedIn) {
       authApi.signout();
       navigate("/");
     } else {
@@ -39,7 +37,7 @@ const About = () => {
 
         <br />
         <p>기술 스택:</p>
-        <p>Frontend: React, Typescript</p>
+        <p>Frontend: React, Typescript, Redux</p>
         <p>Backend: Spring Boot, Redis, postgresql, Docker, EC2</p>
         <p>Languages: Python, Java, Typescript</p>
 
