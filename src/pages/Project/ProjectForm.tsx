@@ -4,8 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./ProjectForm.module.css";
-import LoginAuth from "../../provider/LoginAuth";
-import { authApi } from "../../api/authApi";
 
 type ProjectForm = {
   title: string;
@@ -31,7 +29,6 @@ const ProjectForm = () => {
   });
 
   const content = watch("content", "");
-  const isLoggedIn = LoginAuth();
 
 
   // loads project if editing
