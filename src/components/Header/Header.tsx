@@ -8,7 +8,7 @@ const Header = () => {
   const user = useSelector((state: RootState) => state.auth.email);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const handleSignout = () => {
     authApi.signout();
     navigate("/");
@@ -19,6 +19,10 @@ const Header = () => {
       <div className={styles.left}>
         <Link to="/">JUNSUNG KIM</Link>{" "}
       </div>
+
+      {user ? <Link to="/projects/new"> NEW PROJECT </Link> : <p>{""}</p>}
+      {user ? <Link to="/writings/new"> NEW WRITING </Link> : <p>{""}</p>}
+
       <nav className={styles.right}>
         <Link to="/about" state={{ backgroundLocation: location }}>
           ABOUT

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
+import styles from "./ProjectDetail.module.css";
 
 type Project = {
   id: number;

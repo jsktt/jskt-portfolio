@@ -3,7 +3,7 @@ import { supabaseClient } from "../../api/supabase";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
-
+import styles from "./ProjectForm.module.css";
 
 type ProjectForm = {
   title: string;
@@ -59,41 +59,50 @@ const ProjectForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>{isEdit ? "수정하기" : "생성하기"} </h1>
-      <input placeholder="제목" {...register("title", { required: true })} />
+    <div className={styles.container}>
 
-      {/** status enum */}
-      <select {...register("status", { required: true })}>
-        <option value="NOT DEPLOYED">Not deployed</option>
-        <option value="DEPLOYED">Deployed</option>
-      </select>
+      <div className={styles.left}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <h1>{isEdit ? "수정하기" : "생성하기"} </h1>
+          <input className={styles.title}
+            placeholder="제목"
+            {...register("title", { required: true })}
+          />
 
-      {/** category enum */}
-      <select {...register("category", { required: true })}>
-        <option value="PERSONAL">Personal</option>
-        <option value="TEAM">Team</option>
-      </select>
+          {/** status enum */}
+          <select {...register("status", { required: true })}>
+            <option value="NOT DEPLOYED">Not deployed</option>
+            <option value="DEPLOYED">Deployed</option>
+          </select>
 
-      <input type="date" {...register("start_date", { required: true })} />
-      <input type="date" {...register("end_date")} />
+          {/** category enum */}
+          <select {...register("category", { required: true })}>
+            <option value="PERSONAL">Personal</option>
+            <option value="TEAM">Team</option>
+          </select>
 
-      <input {...register("project_url")} placeholder="Project URL" />
+          <input type="date" {...register("start_date", { required: true })} />
+          <input type="date" {...register("end_date")} />
 
-      <div>
-        <textarea
-        placeholder="markdown 으로 작성 하세요..."
-        {...register("content", { required: true })}
-        />
+          <input {...register("project_url")} placeholder="Project URL" />
 
+          <div>
+            <textarea
+              placeholder="markdown 으로 작성 하세요..."
+              {...register("content", { required: true })}
+            />
+          </div>
+
+          <button type="submit">{isEdit ? "수정하기" : "생성하기"}</button>
+        </form>
+      </div>
+
+      <div className={styles.right}>
         <div>
           <ReactMarkdown>{content}</ReactMarkdown>
         </div>
-
       </div>
-
-      <button type="submit">{isEdit ? "수정하기" : "생성하기"}</button>
-    </form>
+    </div>
   );
 };
 
