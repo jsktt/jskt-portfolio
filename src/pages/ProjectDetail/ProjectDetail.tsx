@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import styles from "./ProjectDetail.module.css";
 import LoginAuth from "../../provider/LoginAuth";
 
@@ -86,7 +87,7 @@ const ProjectDetail = () => {
 
       {/* .md  */}
       <article className={styles.markdown}>
-        <ReactMarkdown>{project.content}</ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeRaw]}>{project.content}</ReactMarkdown>
       </article>
     </div>
   );
