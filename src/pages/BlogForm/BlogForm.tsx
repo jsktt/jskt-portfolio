@@ -55,7 +55,8 @@ const BlogForm = () => {
 
   // uploads image to storage and inserts markdown into content
   const uploadImage = async (file: File) => {
-    const fileName = `${Date.now()}-${file.name}`;
+    const safeName = file.name.replace(/\s+/g, "-");
+    const fileName = `${Date.now()}-${safeName}`;
 
     const { error } = await supabaseClient.storage
       .from("blog-image")
