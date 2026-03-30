@@ -102,6 +102,17 @@
     background: #f5f5f5;
 }
 
+.imageButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.uploadError {
+    font-size: 12px;
+    color: #c0392b;
+    margin: 0 0 12px 0;
+}
+
 /* markdown editor */
 .textarea {
     width: 100%;

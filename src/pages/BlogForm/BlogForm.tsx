@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./BlogForm.module.css";
 
 type BlogForm = {
@@ -17,6 +17,8 @@ const BlogForm = () => {
   const isEdit = Boolean(id);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const { register, handleSubmit, watch, reset, setValue, getValues } =
     useForm<BlogForm>();
@@ -72,16 +74,19 @@ const BlogForm = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // reset so the same file can be selected again
     e.target.value = "";
+    setUploadError(null);
+    setUploading(true);
 
     try {
       const url = await uploadImage(file);
       const current = getValues("content") || "";
-      // insert as <img> so width is editable directly in the editor
       setValue("content", `${current}\n<img src="${url}" width="600" />\n`);
-    } catch (err) {
-      console.error("Image upload failed:", err);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setUploadError(message);
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -102,10 +107,15 @@ const BlogForm = () => {
           <button
             type="button"
             className={styles.imageButton}
+            disabled={uploading}
             onClick={() => fileInputRef.current?.click()}
           >
-            이미지
+            {uploading ? "업로드 중..." : "이미지"}
           </button>
+
+          {uploadError && (
+            <p className={styles.uploadError}>{uploadError}</p>
+          )}
 
           <input
             type="file"
