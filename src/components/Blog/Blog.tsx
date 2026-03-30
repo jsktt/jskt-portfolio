@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabaseClient } from "../../api/supabase";
 import styles from "./Blog.module.css";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import LoginAuth from "../../provider/LoginAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -111,7 +112,7 @@ const Blog = () => {
                     )}
                   </p>
                   <article className={styles.markdown}>
-                    <ReactMarkdown>{expandedPost.content ?? ""}</ReactMarkdown>
+                    <ReactMarkdown rehypePlugins={[rehypeRaw]}>{expandedPost.content ?? ""}</ReactMarkdown>
                   </article>
                 </div>
               )}
