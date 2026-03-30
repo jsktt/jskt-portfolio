@@ -3,6 +3,7 @@ import { supabaseClient } from "../../api/supabase";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import styles from "./ProjectForm.module.css";
 
 type ProjectForm = {
@@ -82,9 +83,17 @@ const ProjectForm = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const url = await uploadImage(file);
-    const current = getValues("content") || "";
-    setValue("content", `${current}\n![image](${url})\n`);
+    // reset so the same file can be selected again
+    e.target.value = "";
+
+    try {
+      const url = await uploadImage(file);
+      const current = getValues("content") || "";
+      // insert as <img> so width is editable directly in the editor
+      setValue("content", `${current}\n<img src="${url}" width="600" />\n`);
+    } catch (err) {
+      console.error("Image upload failed:", err);
+    }
   };
 
   return (
@@ -179,7 +188,7 @@ const ProjectForm = () => {
       </div>
 
       <div className={styles.right}>
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeRaw]}>{content}</ReactMarkdown>
       </div>
 
     </div>

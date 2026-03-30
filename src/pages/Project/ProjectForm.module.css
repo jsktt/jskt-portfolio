@@ -121,6 +121,13 @@
     border-color: #202632;
 }
 
+/* center images in preview by default */
+.right img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
 /* submit button */
 .submitButton {
     padding: 12px 24px;
