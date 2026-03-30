@@ -7,7 +7,7 @@ const About = () => {
   const navigate = useNavigate();
   const isLoggedIn = LoginAuth();
   const handleClose = () => {
-    navigate(-1);
+    navigate(-1);   // 뒤 페이지 로 가기
   };
 
   const handleAuth = () => {

@@ -19,7 +19,7 @@ const Blog = () => {
   const isLoggedIn = LoginAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchPost = async () => {
       const { data, error } = await supabaseClient
         .from("posts")
@@ -34,9 +34,9 @@ const Blog = () => {
   }, []);
 
   const handleExpand = async (post: Blog) => {
-    setActiveId(post.id); // triger slide up animation.
+    setActiveId(post.id); // trigger slide up animation.
 
-    //fetch full content
+    // fetch full content
     const { data } = await supabaseClient
       .from("posts")
       .select("*")

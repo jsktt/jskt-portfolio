@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { supabaseClient } from "../../api/supabase";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./ProjectForm.module.css";
 
@@ -21,17 +21,19 @@ const ProjectForm = () => {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
-  const { register, handleSubmit, reset, watch } = useForm<ProjectForm>({
-    defaultValues: {
-      title: "",
-      content: "",
-    },
-  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { register, handleSubmit, reset, watch, setValue, getValues } =
+    useForm<ProjectForm>({
+      defaultValues: {
+        title: "",
+        content: "",
+      },
+    });
 
   const content = watch("content", "");
 
-
-  // loads project if editing
+  // loads project data when editing
   useEffect(() => {
     if (!isEdit) return;
 
@@ -43,7 +45,7 @@ const ProjectForm = () => {
         .single();
 
       if (error) console.error(error);
-      else reset(data); // populates the form
+      else reset(data);
     };
 
     fetchProject();
@@ -59,50 +61,127 @@ const ProjectForm = () => {
     navigate("/projects");
   };
 
+  // uploads image to storage and inserts markdown into content
+  const uploadImage = async (file: File) => {
+    const fileName = `${Date.now()}-${file.name}`;
+
+    const { error } = await supabaseClient.storage
+      .from("project-image")
+      .upload(fileName, file, { upsert: true });
+
+    if (error) throw error;
+
+    const { data } = supabaseClient.storage
+      .from("project-image")
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const url = await uploadImage(file);
+    const current = getValues("content") || "";
+    setValue("content", `${current}\n![image](${url})\n`);
+  };
+
   return (
     <div className={styles.container}>
 
       <div className={styles.left}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>{isEdit ? "수정하기" : "생성하기"} </h1>
-          <input className={styles.title}
+          <h1 className={styles.heading}>{isEdit ? "수정하기" : "생성하기"}</h1>
+
+          <input
+            className={styles.title}
             placeholder="제목"
             {...register("title", { required: true })}
           />
 
-          {/** status enum */}
-          <select {...register("status", { required: true })}>
-            <option value="NOT_DEPLOYED">Not deployed</option>
-            <option value="DEPLOYED">Deployed</option>
-          </select>
+          <div className={styles.row}>
+            <select
+              className={styles.select}
+              {...register("status", { required: true })}
+            >
+              <option value="NOT_DEPLOYED">Not Deployed</option>
+              <option value="DEPLOYED">Deployed</option>
+            </select>
 
-          {/** category enum */}
-          <select {...register("category", { required: true })}>
-            <option value="PERSONAL">Personal</option>
-            <option value="TEAM">Team</option>
-          </select>
+            <select
+              className={styles.select}
+              {...register("category", { required: true })}
+            >
+              <option value="PERSONAL">Personal</option>
+              <option value="TEAM">Team</option>
+            </select>
+          </div>
 
-          <input type="date" {...register("start_date", { required: true })} />
-          <input type="date" {...register("end_date")} />
-
-          <input {...register("project_url")} placeholder="Project URL" />
-
-          <div>
-            <textarea
-              placeholder="markdown 으로 작성 하세요..."
-              {...register("content", { required: true })}
+          <div className={styles.row}>
+            <input
+              className={styles.input}
+              type="date"
+              {...register("start_date", { required: true })}
+            />
+            <input
+              className={styles.input}
+              type="date"
+              {...register("end_date")}
             />
           </div>
 
-          <button type="submit">{isEdit ? "수정하기" : "생성하기"}</button>
+          <input
+            className={styles.input}
+            placeholder="Project URL"
+            {...register("project_url")}
+          />
+
+          <input
+            className={styles.input}
+            placeholder="Additional URL"
+            {...register("additional_url")}
+          />
+
+          <input
+            className={styles.input}
+            placeholder="Cover Image URL"
+            {...register("cover_image_url")}
+          />
+
+          {/* image upload inserts into markdown content */}
+          <button
+            type="button"
+            className={styles.imageButton}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            이미지
+          </button>
+
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleImageUpload}
+          />
+
+          <textarea
+            className={styles.textarea}
+            placeholder="markdown 으로 작성 하세요..."
+            {...register("content", { required: true })}
+          />
+
+          <button type="submit" className={styles.submitButton}>
+            {isEdit ? "수정하기" : "생성하기"}
+          </button>
         </form>
       </div>
 
       <div className={styles.right}>
-        <div>
-          <ReactMarkdown>{content}</ReactMarkdown>
-        </div>
+        <ReactMarkdown>{content}</ReactMarkdown>
       </div>
+
     </div>
   );
 };
