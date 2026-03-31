@@ -38,9 +38,9 @@ const About = () => {
 
         <br />
         <p>기술 스택:</p>
-        <p>Frontend: React, Typescript, Redux</p>
-        <p>Backend: Spring Boot, Redis, postgresql, Docker, EC2</p>
-        <p>Languages: Python, Java, Typescript</p>
+        <p>Languages: Java, Python, Typescript</p>
+        <p>Developer Tools: Git, SpringBoot, Redis, postgreSQL, AWS EC2</p>
+        <p>AWS S3, Nginx, Docker, React, Pytorch, Hugging-Face Transformers</p>
 
         <div className={styles.footer}>
           <div className={styles.left}>
