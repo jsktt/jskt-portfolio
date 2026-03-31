@@ -2,12 +2,12 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Blog from "./components/Blog/Blog";
-import Project from "./components/Project/Project";
+// import Project from "./components/Project/Project";
 import About from "./components/About/About";
 import Login from "./components/Login/Login";
 import Home from "./pages/Home/Home";
-import ProjectForm from "./pages/Project/ProjectForm";
-import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
+// import ProjectForm from "./pages/Project/ProjectForm";
+// import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
 import BlogForm from "./pages/BlogForm/BlogForm";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
 
