@@ -28,10 +28,10 @@ function App() {
         <Route path="/writings/edit/:id" element={<BlogForm />} />
         <Route path="/writings/:id" element={<BlogDetail />} />
 
-        <Route path="/projects" element={<Project />} />
+        {/* <Route path="/projects" element={<Project />} />
         <Route path="/projects/:id" element={<ProjectDetail />} />
         <Route path="/projects/new" element={<ProjectForm />} />
-        <Route path="/projects/edit/:id" element={<ProjectForm />} />
+        <Route path="/projects/edit/:id" element={<ProjectForm />} /> */}
       </Routes>
 
       {state?.backgroundLocation && (
