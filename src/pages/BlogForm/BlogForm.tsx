@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
+import imageCompression from "browser-image-compression";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import { useEffect, useRef, useState } from "react";
@@ -55,12 +56,18 @@ const BlogForm = () => {
 
   // uploads image to storage and inserts markdown into content
   const uploadImage = async (file: File) => {
+    const compressed = await imageCompression(file, {
+      maxSizeMB: 0.5,
+      maxWidthOrHeight: 1200,
+      useWebWorker: true,
+    });
+
     const safeName = file.name.replace(/\s+/g, "-");
     const fileName = `${Date.now()}-${safeName}`;
 
     const { error } = await supabaseClient.storage
       .from("blog-image")
-      .upload(fileName, file, { upsert: true });
+      .upload(fileName, compressed, { upsert: true });
 
     if (error) throw error;
 
