@@ -10,7 +10,7 @@ import Home from "./pages/Home/Home";
 // import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
 import BlogForm from "./pages/BlogForm/BlogForm";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 
 function App() {
