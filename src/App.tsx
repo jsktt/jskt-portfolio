@@ -10,6 +10,8 @@ import Home from "./pages/Home/Home";
 // import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
 import BlogForm from "./pages/BlogForm/BlogForm";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
+import { Analytics } from "@vercel/analytics/next";
+
 
 function App() {
   const location = useLocation(); // for deciding what stays underneath the hover
@@ -33,6 +35,7 @@ function App() {
         <Route path="/projects/new" element={<ProjectForm />} />
         <Route path="/projects/edit/:id" element={<ProjectForm />} /> */}
       </Routes>
+      <Analytics />
 
       {state?.backgroundLocation && (
         <Routes>
