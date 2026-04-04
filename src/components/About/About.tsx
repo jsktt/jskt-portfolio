@@ -45,6 +45,7 @@ const About = () => {
           <div className={styles.left}>
             <a href="https://github.com/jsktt">GITHUB</a>
             <a href="https://www.linkedin.com/in/junsung-kim99/">LINKEDIN</a>
+            <a href="https://www.instagram.com/junsungslens/">PHOTOGRAPHY</a>
           </div>
           <div className={styles.right}>
             <span>UITOMDE@GMAIL.COM</span>
