@@ -3,6 +3,11 @@ import { supabaseClient } from "../../api/supabase";
 import styles from "./Blog.module.css";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import rehypeHighlight from "rehype-highlight";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "highlight.js/styles/github-dark.css";
+import "katex/dist/katex.min.css";
 import LoginAuth from "../../provider/LoginAuth";
 import { useNavigate } from "react-router-dom";
 
@@ -112,7 +117,7 @@ const Blog = () => {
                     )}
                   </p>
                   <article className={styles.markdown}>
-                    <ReactMarkdown rehypePlugins={[rehypeRaw]}>{expandedPost.content ?? ""}</ReactMarkdown>
+                    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}>{expandedPost.content ?? ""}</ReactMarkdown>
                   </article>
                 </div>
               )}
