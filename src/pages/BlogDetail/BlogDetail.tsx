@@ -58,7 +58,7 @@ const BlogDetail = () => {
         ""
       )}
       <article>
-        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeKatex]}>{post.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}>{post.content}</ReactMarkdown>
       </article>
     </div>
   );

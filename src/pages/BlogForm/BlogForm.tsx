@@ -151,7 +151,7 @@ const BlogForm = () => {
       </div>
 
       <div className={styles.right}>
-        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeKatex]}>{content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}>{content}</ReactMarkdown>
       </div>
 
     </div>
