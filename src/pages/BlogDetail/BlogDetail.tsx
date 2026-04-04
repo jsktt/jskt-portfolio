@@ -3,6 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import rehypeHighlight from "rehype-highlight";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "highlight.js/styles/github-dark.css";
+import "katex/dist/katex.min.css";
 import styles from "./BlogDetail.module.css";
 import LoginAuth from "../../provider/LoginAuth";
 
@@ -53,7 +58,7 @@ const BlogDetail = () => {
         ""
       )}
       <article>
-        <ReactMarkdown rehypePlugins={[rehypeRaw]}>{post.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeRaw, rehypeHighlight, rehypeKatex]}>{post.content}</ReactMarkdown>
       </article>
     </div>
   );
