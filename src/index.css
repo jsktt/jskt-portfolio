@@ -46,6 +46,11 @@
   font-display: swap;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   font-family: "PPNeuel", system-ui, sans-serif;
 

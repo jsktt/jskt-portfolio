@@ -2,8 +2,6 @@ export const IMAGES = {
   LANDING: {
     BRIDGE:
       "https://orkyedltqssofjokrdxh.supabase.co/storage/v1/object/sign/test/Chicago%20-%20DuSable%20Bridge.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85Yjk0NmNlNS02NzFlLTQzYzctOWYwMi05NDc1YTFkYzZmMDgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZXN0L0NoaWNhZ28gLSBEdVNhYmxlIEJyaWRnZS5qcGciLCJpYXQiOjE3NzQ5NDI0MDUsImV4cCI6MTgwNjQ3ODQwNX0.MrX1rZuLC-3wUQw79DsvZaXePqJujkCyE9dC0h1hPr4",
-    JEJUDO:
-      "https://orkyedltqssofjokrdxh.supabase.co/storage/v1/object/sign/test/jejudo.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85Yjk0NmNlNS02NzFlLTQzYzctOWYwMi05NDc1YTFkYzZmMDgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZXN0L2planVkby5qcGciLCJpYXQiOjE3NzQ5NDI0MjcsImV4cCI6MTgwNjQ3ODQyN30.6q-YROaUe6Yg3hy1seEmpu3-PwsqAt1ZqUeg5lFQmgE",
     DANTES:
       "https://orkyedltqssofjokrdxh.supabase.co/storage/v1/object/sign/test/WestVillage%20Dantes.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85Yjk0NmNlNS02NzFlLTQzYzctOWYwMi05NDc1YTFkYzZmMDgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZXN0L1dlc3RWaWxsYWdlIERhbnRlcy5qcGciLCJpYXQiOjE3NzQ5NDI0NTQsImV4cCI6MTgwNjQ3ODQ1NH0.vexTBc4Pzqmxlni4CH1tqU0fHTYMnK-QDd5gIIu285Y",
     MAPLECREST:
@@ -19,12 +17,13 @@ export const IMAGES = {
       "https://orkyedltqssofjokrdxh.supabase.co/storage/v1/object/sign/test/Grand%20Central%20Terminal.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85Yjk0NmNlNS02NzFlLTQzYzctOWYwMi05NDc1YTFkYzZmMDgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZXN0L0dyYW5kIENlbnRyYWwgVGVybWluYWwuanBnIiwiaWF0IjoxNzc0OTQyNTQwLCJleHAiOjE4MDY0Nzg1NDB9.b9VwmluXphvRNo3qBAWiQ_ehP6BrxAnDjCgQJIE3Px0",
     CARL_SCHURZ:
       "https://orkyedltqssofjokrdxh.supabase.co/storage/v1/object/sign/test/CARL%20SCHURZ%20PARK.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85Yjk0NmNlNS02NzFlLTQzYzctOWYwMi05NDc1YTFkYzZmMDgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZXN0L0NBUkwgU0NIVVJaIFBBUksuanBnIiwiaWF0IjoxNzc0OTQyNTUzLCJleHAiOjE4MDY0Nzg1NTN9.Z9PlovGH0vihFb_f6DWvIAVrOG3jsqfgGSk3GaRWQO4",
+    GASAN: "https://orkyedltqssofjokrdxh.supabase.co/storage/v1/object/sign/test/gasaan.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85Yjk0NmNlNS02NzFlLTQzYzctOWYwMi05NDc1YTFkYzZmMDgiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJ0ZXN0L2dhc2Fhbi5qcGciLCJpYXQiOjE3NzU2NTIyMzUsImV4cCI6MTgwNzE4ODIzNX0.atUC-g_vsdZRTcjGhZeazLbQdug9708eTaeVHUYXgPQ"
   },
 } as const;
 
 export const LANDING_DESCRIPTIONS = {
   BRIDGE: "River view of the Chicago Bridge.",
-  JEJUDO: "Coastal cliffs and volcanic landscape in Jeju Island, South Korea.",
+  GASAN: "Spring Blossom at Gasan Digital, Seoul",
   DANTES: "Dante’s in West Village, NYC — evening city atmosphere.",
   MAPLECREST: "Autumn scenery in Maplecrest, Upstate New York.",
   TIMES_SQUARE: "Night lights and billboards in Times Square, NYC.",

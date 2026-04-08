@@ -95,11 +95,10 @@ const Home = () => {
           width={250}
         />
         <img
-          onClick={() => imgState("JEJUDO")}
-          src={IMAGES.LANDING.JEJUDO}
+          onClick={() => imgState("GASAN")}
+          src={IMAGES.LANDING.GASAN}
           alt="image"
-          width={400}
-          height={200}
+          width={250}
         />
       </div>
 

@@ -10,7 +10,12 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.left}>
-        <Link to="/">JUNSUNG KIM</Link>{" "}
+        <a href="/" onClick={(e) => {
+          if (window.location.pathname === "/") {
+            e.preventDefault();
+            window.location.reload();
+          }
+        }}>JUNSUNG KIM</a>{" "}
       </div>
 
       {/* {user ? <Link to="/projects/new"> NEW PROJECT </Link> : <p>{""}</p>} */}
