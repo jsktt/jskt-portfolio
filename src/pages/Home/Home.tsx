@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { IMAGES, LANDING_DESCRIPTIONS } from "../../assets/assets";
 import styles from "./Home.module.css";
+
+const ALL_IMAGES = Object.keys(IMAGES.LANDING) as (keyof typeof IMAGES.LANDING)[];
 
 const Home = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [keyword, setKeyword] = useState<
     keyof typeof LANDING_DESCRIPTIONS | null
   >(null);
+
+  const mobileImageKey = useMemo(
+    () => ALL_IMAGES[Math.floor(Math.random() * ALL_IMAGES.length)],
+    []
+  );
 
   const imgState = (key: keyof typeof LANDING_DESCRIPTIONS) => {
     setKeyword(key);
@@ -93,6 +100,15 @@ const Home = () => {
           alt="image"
           width={400}
           height={200}
+        />
+      </div>
+
+      <div className={styles.mobileImage}>
+        <img
+          onClick={() => setKeyword(mobileImageKey as keyof typeof LANDING_DESCRIPTIONS)}
+          src={IMAGES.LANDING[mobileImageKey]}
+          alt="image"
+          width={280}
         />
       </div>
 
