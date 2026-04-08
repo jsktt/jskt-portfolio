@@ -111,6 +111,21 @@
   color: #fff;
 }
 
+@media (max-width: 768px) {
+  .title {
+    font-size: 36px;
+  }
+
+  .headerWrapper {
+    padding: 0 12px;
+    min-height: 70px;
+  }
+
+  .contentBody {
+    padding: 24px 16px;
+  }
+}
+
 @keyframes slideup {
   from {
     opacity: 0;
