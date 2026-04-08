@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { supabaseClient } from "../../api/supabase";
 import styles from "./Blog.module.css";
 import ReactMarkdown from "react-markdown";
@@ -16,6 +17,130 @@ type Blog = {
   title: string;
   content?: string;
   created_at?: string;
+};
+
+const toSlug = (text: string) =>
+  text.toLowerCase().replace(/[^a-z0-9가-힣]+/g, "-").replace(/(^-|-$)/g, "");
+
+type Heading = { text: string; id: string };
+
+/** Parse ## headings from raw markdown */
+const parseHeadings = (markdown: string): Heading[] => {
+  const matches = markdown.match(/^## (.+)$/gm);
+  if (!matches) return [];
+  return matches.map((m) => {
+    const text = m.replace(/^## /, "");
+    return { text, id: toSlug(text) };
+  });
+};
+
+/** Custom h2 renderer that injects an id for scroll targeting */
+const HeadingWithId = ({ children, ...props }: React.ComponentProps<"h2">) => {
+  const id = toSlug(String(children));
+  return <h2 id={id} {...props}>{children}</h2>;
+};
+
+/** Track which h2 is currently in the viewport */
+const useActiveHeading = (articleRef: React.RefObject<HTMLDivElement | null>, headings: Heading[]) => {
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!articleRef.current || headings.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // find the first heading entering the viewport
+        const entering = entries.find((e) => e.isIntersecting);
+        if (entering) {
+          setActiveId(entering.target.id);
+        }
+      },
+      { rootMargin: "-20% 0px -60% 0px" }
+    );
+
+    const h2Elements = articleRef.current.querySelectorAll("h2[id]");
+    h2Elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [articleRef, headings]);
+
+  return activeId;
+};
+
+/** Fixed sidebar table of contents, rendered via portal */
+const TableOfContents = ({
+  headings,
+  activeId,
+}: {
+  headings: Heading[];
+  activeId: string | null;
+}) => {
+  if (headings.length === 0) return null;
+
+  const handleClick = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return createPortal(
+    <nav className={styles.toc}>
+      {headings.map((h) => (
+        <a
+          key={h.id}
+          href={`#${h.id}`}
+          className={`${styles.tocItem} ${activeId === h.id ? styles.tocItemActive : ""}`}
+          onClick={(e) => handleClick(e, h.id)}
+        >
+          {h.text}
+        </a>
+      ))}
+    </nav>,
+    document.body
+  );
+};
+
+/** Expanded article view with TOC sidebar */
+const ExpandedContent = ({
+  post,
+  isLoggedIn,
+  onEdit,
+}: {
+  post: Blog;
+  isLoggedIn: boolean;
+  onEdit: () => void;
+}) => {
+  const articleRef = useRef<HTMLDivElement>(null);
+  const headings = useMemo(() => parseHeadings(post.content ?? ""), [post.content]);
+  const activeId = useActiveHeading(articleRef, headings);
+
+  return (
+    <>
+      <TableOfContents headings={headings} activeId={activeId} />
+      <div className={styles.contentBody}>
+        <span className={styles.date}>
+          {new Date(post.created_at ?? "").toLocaleDateString()}
+        </span>
+        <p>
+          {isLoggedIn ? (
+            <button className={styles.editButton} onClick={onEdit}>
+              EDIT
+            </button>
+          ) : (
+            ""
+          )}
+        </p>
+        <article ref={articleRef} className={styles.markdown}>
+          <ReactMarkdown
+            remarkPlugins={[remarkMath]}
+            rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}
+            components={{ h2: HeadingWithId }}
+          >
+            {post.content ?? ""}
+          </ReactMarkdown>
+        </article>
+      </div>
+    </>
+  );
 };
 
 const Blog = () => {
@@ -98,28 +223,11 @@ const Blog = () => {
 
               {/* This only renders once the post is "expanded" */}
               {isActive && expandedPost && (
-                <div className={styles.contentBody}>
-                  <span className={styles.date}>
-                    {new Date(
-                      expandedPost.created_at ?? "",
-                    ).toLocaleDateString()}
-                  </span>
-                  <p>
-                    {isLoggedIn ? (
-                      <button
-                        className={styles.editButton}
-                        onClick={() => navigate(`/writings/edit/${post.id}`)}
-                      >
-                        EDIT
-                      </button>
-                    ) : (
-                      ""
-                    )}
-                  </p>
-                  <article className={styles.markdown}>
-                    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}>{expandedPost.content ?? ""}</ReactMarkdown>
-                  </article>
-                </div>
+                <ExpandedContent
+                  post={expandedPost}
+                  isLoggedIn={isLoggedIn}
+                  onEdit={() => navigate(`/writings/edit/${post.id}`)}
+                />
               )}
             </div>
           );
