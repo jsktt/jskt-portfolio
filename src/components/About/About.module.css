@@ -7,6 +7,11 @@
   text-decoration: none;
 }
 
+.authButton {
+  all: unset;
+  cursor: pointer;
+}
+
 .overlay {
   position: fixed;
   inset: 0;
@@ -61,9 +66,6 @@
 .left a:hover {
   color: #4169E1;
   text-decoration: none;
-}
-
-.left a:hover {
   opacity: 0.6;
 }
 

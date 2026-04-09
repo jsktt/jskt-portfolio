@@ -26,7 +26,7 @@ const About = () => {
         <br />
 
         <p className={styles.text}>
-          안녕하세요, 저는 <span onClick={() => handleAuth()}>김준성</span>
+          안녕하세요, 저는 <button className={styles.authButton} onClick={handleAuth}>김준성</button>
           입니다.
         </p>
         <p>

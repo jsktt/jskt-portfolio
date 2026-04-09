@@ -2,13 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabaseClient } from "../../api/supabase";
 import imageCompression from "browser-image-compression";
-import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import rehypeHighlight from "rehype-highlight";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "highlight.js/styles/github-dark.css";
-import "katex/dist/katex.min.css";
+import MarkdownRenderer from "../../components/MarkdownRenderer/MarkdownRenderer";
 import { useEffect, useRef, useState } from "react";
 import styles from "./BlogForm.module.css";
 
@@ -151,7 +145,7 @@ const BlogForm = () => {
       </div>
 
       <div className={styles.right}>
-        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}>{content}</ReactMarkdown>
+        <MarkdownRenderer>{content}</MarkdownRenderer>
       </div>
 
     </div>

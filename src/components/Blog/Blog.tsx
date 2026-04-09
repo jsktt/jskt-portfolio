@@ -1,28 +1,63 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { supabaseClient } from "../../api/supabase";
 import styles from "./Blog.module.css";
-import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import rehypeHighlight from "rehype-highlight";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "highlight.js/styles/github-dark.css";
-import "katex/dist/katex.min.css";
+import MarkdownRenderer from "../MarkdownRenderer/MarkdownRenderer";
 import LoginAuth from "../../provider/LoginAuth";
 import { useNavigate } from "react-router-dom";
-
-type Blog = {
-  id: number;
-  title: string;
-  content?: string;
-  created_at?: string;
-};
+import type { BlogPost } from "../../types/Blog";
 
 const toSlug = (text: string) =>
   text.toLowerCase().replace(/[^a-z0-9가-힣]+/g, "-").replace(/(^-|-$)/g, "");
 
 type Heading = { text: string; id: string };
+
+/** Title that auto-scrolls when text overflows the container */
+const ScrollingTitle = ({ text }: { text: string }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [scrollProps, setScrollProps] = useState<{ distance: number; duration: number } | null>(null);
+
+  const measure = useCallback(() => {
+    if (!containerRef.current || !textRef.current) return;
+    const containerW = containerRef.current.clientWidth;
+    const textW = textRef.current.scrollWidth;
+    const overflow = textW - containerW;
+    if (overflow > 0) {
+      // ~80px/s on desktop, ~30px/s on mobile; min 3s max 16s
+      const speed = window.innerWidth <= 768 ? 30 : 80;
+      const duration = Math.min(16, Math.max(3, overflow / speed));
+      setScrollProps({ distance: overflow, duration });
+    } else {
+      setScrollProps(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [measure, text]);
+
+  const inlineStyle = scrollProps
+    ? ({
+        "--scroll-distance": `-${scrollProps.distance}px`,
+        "--marquee-duration": `${scrollProps.duration}s`,
+      } as React.CSSProperties)
+    : undefined;
+
+  return (
+    <div ref={containerRef} className={styles.titleContainer}>
+      <span
+        ref={textRef}
+        className={`${styles.title} ${scrollProps ? styles.titleScrolling : ""}`}
+        style={inlineStyle}
+      >
+        {text}
+      </span>
+    </div>
+  );
+};
 
 /** Parse ## headings from raw markdown */
 const parseHeadings = (markdown: string): Heading[] => {
@@ -105,7 +140,7 @@ const ExpandedContent = ({
   isLoggedIn,
   onEdit,
 }: {
-  post: Blog;
+  post: BlogPost;
   isLoggedIn: boolean;
   onEdit: () => void;
 }) => {
@@ -130,13 +165,9 @@ const ExpandedContent = ({
           )}
         </p>
         <article ref={articleRef} className={styles.markdown}>
-          <ReactMarkdown
-            remarkPlugins={[remarkMath]}
-            rehypePlugins={[rehypeKatex, rehypeHighlight, rehypeRaw]}
-            components={{ h2: HeadingWithId }}
-          >
+          <MarkdownRenderer components={{ h2: HeadingWithId }}>
             {post.content ?? ""}
-          </ReactMarkdown>
+          </MarkdownRenderer>
         </article>
       </div>
     </>
@@ -144,8 +175,8 @@ const ExpandedContent = ({
 };
 
 const Blog = () => {
-  const [posts, setPosts] = useState<Blog[]>([]);
-  const [expandedPost, setExpandedPost] = useState<Blog | null>(null);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [expandedPost, setExpandedPost] = useState<BlogPost | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
   const isLoggedIn = LoginAuth();
   const navigate = useNavigate();
@@ -164,7 +195,7 @@ const Blog = () => {
     fetchPost();
   }, []);
 
-  const handleExpand = async (post: Blog) => {
+  const handleExpand = async (post: BlogPost) => {
     setActiveId(post.id); // trigger slide up animation.
 
     // fetch full content
@@ -213,7 +244,7 @@ const Blog = () => {
               onClick={() => !activeId && handleExpand(post)}
             >
               <div className={styles.headerWrapper}>
-                <span className={styles.title}>{post.title}</span>
+                <ScrollingTitle text={post.title} />
                 {isActive && (
                   <button className={styles.backArrow} onClick={handleClose}>
                     BACK

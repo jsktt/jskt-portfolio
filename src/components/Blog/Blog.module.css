@@ -63,14 +63,35 @@
   min-height: 100px;
 }
 
+.titleContainer {
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+
 .title {
-  width: auto;
+  display: inline-block;
   font-size: 80px;
   font-weight: 500;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   text-transform: uppercase;
+  animation: none;
+}
+
+.titleScrolling {
+  animation: titleMarquee var(--marquee-duration, 4s) ease-in-out infinite;
+}
+
+@keyframes titleMarquee {
+  0%, 20% {
+    transform: translateX(0);
+  }
+  70%, 90% {
+    transform: translateX(var(--scroll-distance, 0px));
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .toc {
@@ -117,7 +138,7 @@
 }
 
 .backArrow {
-  font-weight: 800px;
+  font-weight: 800;
   font-size: 16px;
   border: none;
   background: none;
@@ -245,7 +266,11 @@
 
 @media (max-width: 768px) {
   .title {
-    font-size: 36px;
+    font-size: 52px;
+  }
+
+  .titleContainer {
+    overflow: hidden;
   }
 
   .headerWrapper {
