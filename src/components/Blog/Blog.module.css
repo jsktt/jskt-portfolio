@@ -37,6 +37,10 @@
   margin-top: 0;
 }
 
+.article:last-child {
+  border-bottom: 1px solid var(--color-font);
+}
+
 .article:hover:not(.isActive) {
   transform: translateY(-40px);
   z-index: 5;
@@ -53,6 +57,10 @@
   cursor: default;
   min-height: 100vh;
   z-index: 100;
+}
+
+.isActive .headerWrapper {
+  border-bottom: 1px solid var(--color-font);
 }
 
 .headerWrapper {
