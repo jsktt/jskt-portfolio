@@ -11,6 +11,8 @@ import Home from "./pages/Home/Home";
 import BlogForm from "./pages/BlogForm/BlogForm";
 import BlogDetail from "./pages/BlogDetail/BlogDetail";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 
 
 function App() {
@@ -36,6 +38,7 @@ function App() {
         <Route path="/projects/edit/:id" element={<ProjectForm />} /> */}
       </Routes>
       <Analytics />
+      <SpeedInsights />
 
       {state?.backgroundLocation && (
         <Routes>
